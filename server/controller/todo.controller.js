@@ -16,7 +16,7 @@ module.exports = {
                 userId: decoded.id,
                 task: req.body.task,
                 status: 'uncomplete',
-                users:User._id
+                users:decoded.id
             })
 
         taskList
@@ -44,8 +44,8 @@ module.exports = {
         //console.log(decoded);
         
         Task.
-            find({ userId: decoded.id })
-                .populate('User','username')
+            find({ users : decoded.id })
+                .populate('users')
                     .exec(function (err, todo) {
                 if (err) {
                     console.log(err)
@@ -57,26 +57,46 @@ module.exports = {
     },
     
     updateTask: function (req, res) {
+        //console.log(`===== ${req.body}`);
+        
         let token = req.headers.token
         let decoded = jwt.decode(token,'SECRET')
+        console.log('==============')
+        console.log(req.body);
+        
         Task
-        .find({userId:decoded.id ,task:req.body.task})
+        .find({task:req.body.task})
            .exec(function(err,task){
+               console.log(task);
+               
                 if(err){
                     res.send(err)
-                }else{              
-                    res.send(task[0].status)
-                }
-
-                task[0].status = 'complete'
-                task[0].save(function (err, updated) {
+                }else if(task[0].status === 'uncomplete'){              
+                    task[0].status = 'complete'
+                    task[0].save(function (err, updated) {
                     if (!err){
-                        res.writeContinue()
+                        //res.writeContinue()
+                        res.status(200).json(task)
                     }else{
                         return res.send(err);    
                     }
                     
                   });
+                }else{
+                    task[0].status = 'uncomplete'
+                    task[0].save(function (err, updated) {
+                    if (!err){
+                        //res.writeContinue()
+                        res.status(200).json(task)
+                    }else{
+                        return res.send(err);    
+                    }
+                    
+                  });
+
+                }
+
+                
             })        
       },
 
@@ -98,9 +118,5 @@ module.exports = {
           
 
       }
-
-    
-
-    
 
 }

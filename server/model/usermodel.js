@@ -39,9 +39,7 @@ const UserSchema = new Schema({
   password: {
     type:String,
     minlength: 8
-    },
-    
-    todos: [{ type: Schema.Types.ObjectId, ref: 'Task' }]
+    }
 
   
   });
@@ -79,6 +77,6 @@ const UserSchema = new Schema({
       });
     };
 
-    var User = mongoose.model('Users', UserSchema);
+    var User = mongoose.model('User', UserSchema);
 
 module.exports = { User }

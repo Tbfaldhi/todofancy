@@ -4,10 +4,9 @@ const mongoose = require('mongoose'),
 
 
 var taskSchema = new mongoose.Schema({ 
-  userId:String,
   task: String,
   status: String,
-  users: [{ type: Schema.Types.ObjectId, ref:'User',required:true }]
+  users: { type: Schema.Types.ObjectId, ref:'User' }
    },
   {
     timestamps: true
