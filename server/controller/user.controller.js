@@ -7,7 +7,6 @@ const pwd = process.env.SECRETCODE
 module.exports = {
 
     register:function (req,res) {
-        console.log(req.body);
         
         let{username,email,password} = req.body
         let token = jwt.sign({username},'SECRET');

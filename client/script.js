@@ -1,6 +1,8 @@
 const app = new Vue({
     el: "#app",
      data:{
+       apidata:''
+       ,
        searchdata:{
          status:''
        },
@@ -73,6 +75,12 @@ const app = new Vue({
 
           axios.put('http://localhost:3000/updatetask',{task} )
           .then(res=>{
+            swal({
+              title: "status change",
+              text: "success change status",
+              icon: "warning",
+            });
+  
             this.fetchdata()           
           })
           .catch(err=>{
@@ -85,6 +93,12 @@ const app = new Vue({
 
         axios.delete(`http://localhost:3000/deletetask/${data}`)
         .then(data=>{
+          swal({
+            title: "Success deleted",
+            
+            icon: "warning",
+          });
+          
           this.fetchdata()
         })
         .catch(err=>{
@@ -92,6 +106,7 @@ const app = new Vue({
           
         })
       },
+
       fetchdata(){
 
         token = localStorage.getItem('token')
@@ -107,10 +122,34 @@ const app = new Vue({
       addtask(){
         token = localStorage.getItem('token')    
         axios.post('http://localhost:3000/addTask',{task:this.taskdata.task},{headers: {token: token}})
+        .then(data=>{
+          swal({
+            title: "Success add",   
+            icon: "success",
+          });
+          this.fetchdata()
+        })
+        .catch()
         this.fetchdata()
       },
+      getapi(){
+
+        let self = this
+        axios.get("https://api.chucknorris.io/jokes/random")
+        .then(sentences=>{
+            console.log('======',sentences.data.value);
+            this.apidata=sentences.data.value
+            //word=sentences
+        })
+        .catch(err=>{
+          console.log(err);
+          
+        })
+      }
     },
     created:function () {
       this.fetchdata()
+      this.getapi()
     }  
   })
+
