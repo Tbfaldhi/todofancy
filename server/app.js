@@ -16,7 +16,7 @@ mongoose.connect('mongodb://faldhifal:123456@ds215910.mlab.com:15910/todo')
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  console.log('DATABASE BERHASIL KAMI HACK');
+  console.log('DATABASE CONNECTED!!!  ');
 });
   
 

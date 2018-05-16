@@ -38,8 +38,6 @@ module.exports = {
     login:function (req,res) {
         console.log(req.body);
         
-        // res.send(req)
-        //let{username} = req.body
         User.findOne({
             username: req.body.username,
         }
@@ -47,14 +45,12 @@ module.exports = {
             if (err) {
                 throw err
             }else{
-                //res.send(user.password)
 
                 user.comparePassword(req.body.password, function(err,isMatch){
                     if(err){
                         throw err;
                         
                     }
-                    // console.log('Password123:', isMatch);
                     if(isMatch){    
                         let token = jwt.sign({id:user._id,username:user.username},"SECRET");
                         res.status(200).json({token})
