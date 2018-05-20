@@ -8,56 +8,10 @@ const app = new Vue({
       taskdata:{
         task:''
       },
-      loginData:{
-        username:'',
-        password: ''
-      },
-      registerData: {
-        username: '',
-        email: '',
-        password: ''
-      },
       tasklist:[]
     },
     methods: {
 
-      register: function (event) {
-        
-        event.preventDefault();
-        axios.post('http://localhost:3000/users/register', this.registerData)
-        .then((response) => {
-          swal({
-            title: "Yosh!",
-            text: "Successfully registered!",
-            icon: "success",
-          });
-            this.registerData.username= '';
-            this.registerData.email= '';
-            this.registerData.password= '';
-          })
-        .catch((error) => {
-          console.log(error);
-        });
-  
-      },
-      login: function (event) {
-
-        event.preventDefault()
-        axios.post('http://localhost:3000/users/login', this.loginData)
-        .then(data => {
-          localStorage.setItem('token', data.data.token)
-          window.location.href = '/home.html'
-        })
-        .catch(err => {
-          swal({
-            title: "ugggggh!!",
-            text: "login! failed,username or password wrong",
-            icon: "warning",
-          });
-
-        })
-
-      },
       logout:function(){
 
           localStorage.removeItem('token')

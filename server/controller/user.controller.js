@@ -34,34 +34,36 @@ module.exports = {
         })
     },
    
-    login:function (req,res) {
-        console.log(req.body);
-        
+    login:function (req,response) {
+        //console.log(req.body);
+       
         User.findOne({
             username: req.body.username,
         }
         ,function(err, user){
-            if (err) {
-                console.log('masukkk');
+            if (err) {  
+                console.log('masuk err');           
+                throw err
+            }else if(user!==null){
+                console.log(user);
                 
-                respon.status(500).json(user)
-            }else{
-
-                user.comparePassword(req.body.password, function(err,isMatch){
+            user.comparePassword(req.body.password, function(err,isMatch){
+                    
                     if(err){
+                        console.log(err.response);   
                         throw err;
                         
                     }
                     if(isMatch){    
                         let token = jwt.sign({id:user._id,username:user.username},"SECRET");
-                        res.status(200).json({token})
+                        response.status(200).json({token})
                     }
-                    else{
-                        res.status(500).json('WRONG PASSWORD')
-                    }
+                   
                     
                 })
-            }                        
+            } else{
+                response.status(500).json('WRONG PASSWORD')
+            }                       
         })
     }    
 }
