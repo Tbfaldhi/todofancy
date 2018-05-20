@@ -42,7 +42,9 @@ module.exports = {
         }
         ,function(err, user){
             if (err) {
-                throw err
+                console.log('masukkk');
+                
+                respon.status(500).json(user)
             }else{
 
                 user.comparePassword(req.body.password, function(err,isMatch){

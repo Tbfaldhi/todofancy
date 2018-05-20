@@ -1,8 +1,7 @@
 const app = new Vue({
     el: "#app",
      data:{
-       apidata:''
-       ,
+       apidata:'',
        searchdata:{
          status:''
        },
@@ -46,11 +45,6 @@ const app = new Vue({
         event.preventDefault()
         axios.post('http://localhost:3000/users/login', this.loginData)
         .then(data => {
-          swal({
-            title: "Yosh!",
-            text: "Success login!",
-            icon: "success",
-          }); 
           localStorage.setItem('token', data.data.token)
           window.location.href = '/home.html'
         })
@@ -61,7 +55,6 @@ const app = new Vue({
             icon: "warning",
           });
 
-          console.log(err);
         })
 
       },
@@ -80,8 +73,8 @@ const app = new Vue({
               text: "success change status",
               icon: "warning",
             });
-  
-            this.fetchdata()           
+
+           this.fetchdata()           
           })
           .catch(err=>{
             console.log(err);
@@ -129,8 +122,11 @@ const app = new Vue({
           });
           this.fetchdata()
         })
-        .catch()
-        this.fetchdata()
+        .catch(err=>{
+          console.log(err);
+          
+        })
+       
       },
       getapi(){
 
